@@ -34,7 +34,14 @@ const createAndSendToken = (user, statusCode, res) => {
 };
 
 exports.protect = catchAsync(async (req, res, next) => {
-  const token = req.headers.authorization.split(' ')[1];
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    token = req.headers.authorization.split(' ')[1];
+  }
+
   if (!token) {
     return next(new AppError('Authentication failed, please log in.', 401));
   }
@@ -43,7 +50,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     token,
     process.env.JWT_SECRET
   );
-  const currentUser = await User.findById(decoded.id);
+  const currentUser = await User.findById(decodedToken.id);
 
   if (!currentUser) {
     return next(
@@ -68,7 +75,9 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError('Please provide email and password', 400));
   }
 
-  const user = await User.findOne({ email }).select('+password');
+  const user = await User.findOne({ email })
+    .populate('players')
+    .select('+password');
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError('Incorrect email or password', 401));
   }

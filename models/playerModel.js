@@ -5,24 +5,29 @@ const playerSchema = new Schema({
   name: {
     type: String,
     maxlength: [15, 'Name must be between 1 and 15 characters.'],
-    minlength: [4, 'Name must be between 1 and 15 characters.']
+    minlength: [4, 'Name must be between 1 and 15 characters.'],
   },
   matchesPlayed: {
     type: Number,
-    default: 0
+    default: 0,
   },
   matchesWon: {
     type: Number,
-    default: 0
+    default: 0,
   },
   matchesLost: {
     type: Number,
-    default: 0
+    default: 0,
+  },
+  points: {
+    type: Number,
+    default: 0,
   },
   matchUps: {
     type: Object,
-    default: {}
-  }
+    default: {},
+  },
+  matches: [{ type: Schema.Types.ObjectId, ref: 'Match' }],
 });
 
 const Player = mongoose.model('Player', playerSchema);

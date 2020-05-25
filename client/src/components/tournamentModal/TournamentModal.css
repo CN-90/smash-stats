@@ -1,0 +1,55 @@
+.tournamentModal {
+  width: 30%;
+  margin-top: 5rem;
+  min-height: 600px;
+  background: #232323;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  border-radius: 5px;
+  right: 0;
+  text-align: center;
+}
+
+.tournamentModal > h1 {
+  padding-top: 1rem;
+  color: white;
+}
+
+.tournamentPlayers > .player {
+  display: flex;
+  align-items: center;
+  padding-top: 0.5rem;
+  justify-content: space-between;
+}
+
+.tournamentPlayers {
+  padding-top: 2rem;
+}
+
+.player > .playerName {
+  width: 50%;
+  color: rgb(116, 186, 255);
+}
+
+.formatSelect {
+  width: 98%;
+}
+
+.tournamentModal .btnContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 2rem;
+}
+
+.btnContainer button {
+  width: 40%;
+  background: #3f73f9;
+  color: white;
+}
+
+.btnContainer button:hover {
+  background: #1f5cf8;
+}

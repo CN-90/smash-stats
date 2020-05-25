@@ -33,6 +33,8 @@ const usersSchema = new Schema({
       message: 'Passwords do not match.',
     },
   },
+  players: [{ type: mongoose.Schema.ObjectId, ref: 'Player' }],
+  tournaments: [{ type: mongoose.Schema.ObjectId, ref: 'Tournament' }],
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
@@ -51,6 +53,16 @@ usersSchema.methods.correctPassword = async function (
   userPassword
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+usersSchema.methods.addTournament = async function (userID, tournamentID) {
+  let updatedUser = await User.findByIdAndUpdate(
+    { _id: userID },
+    { $push: { tournaments: tournamentID } },
+    { new: true }
+  );
+
+  return updatedUser;
 };
 
 // create reset password token

@@ -1,11 +1,25 @@
 const Player = require('../models/playerModel');
+const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 
 module.exports.createPlayer = catchAsync(async (req, res) => {
-  const player = await Player.create(req.body);
+  const player = await Player.create({ name: req.body.name });
+
+  const currentUser = await User.findByIdAndUpdate(
+    { _id: req.user._id },
+    { $addToSet: { players: player._id } },
+    { safe: true, upsert: true, new: true },
+    function (err, model) {
+      if (err) console.log(err);
+    }
+  ).populate('players');
+
   res.status(200).json({
     message: 'Success',
-    data: player
+    data: {
+      newPlayer: player,
+      currentUser: currentUser,
+    },
   });
 });
 
@@ -26,7 +40,7 @@ module.exports.addMatch = catchAsync(async (req, res) => {
   // console.log(player[0].matchUps);
 
   res.status(200).json({
-    data: player
+    data: player,
   });
 });
 
@@ -47,6 +61,6 @@ const fakeMatch = {
     matchesPlayed: 1,
     matchesWon: 1,
     characterPlayed: 'link',
-    opponent: 'zelda'
-  }
+    opponent: 'zelda',
+  },
 };

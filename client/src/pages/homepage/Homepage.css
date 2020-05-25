@@ -1,0 +1,22 @@
+.homepage {
+  padding-top: 2rem;
+}
+
+.btnContainer {
+  padding-top: 2rem;
+  text-align: right;
+}
+
+@media only screen and (max-width: 1000px) {
+  html {
+    font-size: 14px;
+  }
+
+  .container {
+    width: 100%;
+  }
+
+  h1 {
+    text-align: center;
+  }
+}

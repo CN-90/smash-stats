@@ -1,0 +1,56 @@
+.loginContainer {
+  width: 400px;
+  height: 550px;
+  font-size: 1rem;
+  background: #1d1d1d;
+  color: #efefef;
+  border-radius: 5px;
+  padding: 3rem 2rem;
+  margin-top: 3rem;
+  z-index: 1;
+  position: relative;
+  background-size: 100% 100%;
+  margin: 0 auto;
+}
+
+/* .loginContainer::before {
+  content: '';
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  border-radius: 5px;
+} */
+
+.welcomeMsg {
+  text-align: center;
+  letter-spacing: 1px;
+  padding-bottom: 1.5rem;
+  font-size: 2.3rem;
+}
+
+.formGroup {
+  padding-bottom: 1rem;
+  z-index: 2;
+}
+
+.loginContainer .btnContainer {
+  text-align: center;
+  padding-top: 3rem;
+}
+
+.loginContainer .submitBtn {
+  background: #5382fc;
+  color: white;
+  z-index: 2;
+}
+
+.errorMsg {
+  color: #ff9797;
+  text-align: center;
+  font-size: 0.85rem;
+  position: absolute;
+}

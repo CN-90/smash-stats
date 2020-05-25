@@ -1,0 +1,39 @@
+.match {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 2fr 1fr 2fr;
+  border-top: 1px solid #d9d9d9;
+  border-bottom: 1px solid #d9d9d9;
+  font-size: 0.9rem;
+}
+
+.characterIcon {
+  height: 50px;
+  width: 50px;
+}
+
+.playerDetails {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.playerName {
+  color: #3f73f9;
+}
+
+.matchResult {
+  text-align: right;
+}
+
+.matchDetails {
+  text-align: center;
+  font-weight: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.right {
+  flex-direction: row-reverse;
+}
