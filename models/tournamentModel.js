@@ -26,7 +26,7 @@ const tournamentSchema = new Schema({
 });
 
 function arrayLimit(val) {
-  return val.length > 1;
+  return val.length > 2;
 }
 
 const Tournament = mongoose.model('Tournament', tournamentSchema);

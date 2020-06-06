@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import './TournamentModal.css';
 import { authHttpRequest, storeUserInfo } from './../../utils/Auth';
 
-const TournamentModal = ({ authState }) => {
+const TournamentModal = ({ authState, authDispatch, setToggleModals }) => {
   const [tournamentName, setTournamentName] = useState('');
   const [playersInTournament, setPlayersInTournament] = useState([]);
 
   const onSubmit = async (e) => {
+    let userInfo = JSON.parse(localStorage.getItem('userData'));
+
     e.preventDefault();
     const tournamentDetails = {
       name: tournamentName,
@@ -19,8 +21,15 @@ const TournamentModal = ({ authState }) => {
       tournamentDetails
     );
 
-    console.log(response.data.user);
-    storeUserInfo(response.data.user);
+    if (!response.data.user) {
+      console.log('Error creating tournament.');
+      return;
+    }
+
+    userInfo.user = response.data.user;
+    authDispatch({ type: 'SET_USER', payload: userInfo.user });
+    storeUserInfo(userInfo);
+    setToggleModals({ playerModal: false, tournamentModal: false });
   };
 
   const onChange = (e) => {
@@ -48,6 +57,7 @@ const TournamentModal = ({ authState }) => {
         <div className="formGroup">
           <label htmlFor="name">Tournament Name</label>
           <input
+            required
             onChange={onChange}
             type="text"
             name="tournamentName"

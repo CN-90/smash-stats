@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import AuthContext from '../../context/authContext';
 import { signOut } from '../../utils/Auth';
 import './Navbar.css';
@@ -28,7 +29,9 @@ const Navbar = ({ toggleModals, setToggleModals }) => {
                 {/* <div className="brand-img">
             <img src="" alt="" />
           </div> */}
-                <h1>SMASH STATS</h1>
+                <Link to="/">
+                  <h1>SMASH STATS</h1>
+                </Link>
               </div>
               <ul>
                 {auth.authState.user ? (

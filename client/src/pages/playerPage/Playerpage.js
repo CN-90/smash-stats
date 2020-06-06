@@ -1,8 +1,12 @@
 import React from 'react';
-import './PlayerPage.css';
+import './Playerpage.css';
 
 const Playerpage = () => {
-  return <div></div>;
+  return (
+    <div>
+      <h1>Hello from the player page!!</h1>
+    </div>
+  );
 };
 
 export default Playerpage;

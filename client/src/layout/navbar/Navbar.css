@@ -17,6 +17,10 @@ nav {
   letter-spacing: 1px;
 }
 
+nav a {
+  color: white;
+}
+
 nav li {
   cursor: pointer;
   padding: 1.5rem;

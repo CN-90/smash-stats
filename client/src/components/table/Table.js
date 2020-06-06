@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Table.css';
 
 const Table = ({ players }) => {
@@ -19,9 +20,9 @@ const Table = ({ players }) => {
           {players.map((player) => {
             return (
               <tr className="tableRow" key={player._id}>
-                <td className="playerName">
-                  <a href="/">{player.name}</a>
-                </td>
+                <Link to={`/player/${player._id}`}>
+                  <td className="playerName">{player.name}</td>
+                </Link>
                 <td className="characters">Pikachu</td>
                 <td>{player.matchesWon}</td>
                 <td>{player.matchesLost}</td>

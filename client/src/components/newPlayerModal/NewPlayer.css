@@ -10,6 +10,7 @@
   border-radius: 5px;
   right: 0;
   text-align: center;
+  z-index: 200;
 }
 
 .newPlayerModal > h1 {

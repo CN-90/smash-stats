@@ -8,10 +8,13 @@ import Container from './layout/container/Container';
 import Navbar from './layout/navbar/Navbar';
 import Homepage from './pages/homepage/Homepage';
 import Authpage from './pages/authpage/Authpage';
+import TournamentPage from './pages/tournamentPage/TournamentPage';
+
 import TournamentModal from './components/tournamentModal/TournamentModal';
 import NewPlayer from './components/newPlayerModal/NewPlayer';
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Playerpage from './pages/playerPage/Playerpage';
 
 function App() {
   const [authState, authDispatch] = useReducer(authReducer, authInitialState);
@@ -34,7 +37,9 @@ function App() {
     Routes = (
       <Switch>
         <Container>
-          <Route path="/" component={Homepage} />
+          <Route path="/" exact component={Homepage} />
+          <Route path="/tournament/:id" component={TournamentPage} />
+          <Route path="/player/:id" component={Playerpage} />
         </Container>
       </Switch>
     );
@@ -55,7 +60,11 @@ function App() {
             setToggleModals={setToggleModals}
           />
           {toggleModals.tournamentModal ? (
-            <TournamentModal authState={authState} />
+            <TournamentModal
+              authState={authState}
+              authDispatch={authDispatch}
+              setToggleModals={setToggleModals}
+            />
           ) : null}
           {toggleModals.playerModal ? (
             <NewPlayer

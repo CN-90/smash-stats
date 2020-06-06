@@ -12,7 +12,9 @@ module.exports.createPlayer = catchAsync(async (req, res) => {
     function (err, model) {
       if (err) console.log(err);
     }
-  ).populate('players');
+  )
+    .populate('players')
+    .populate('tournaments');
 
   res.status(200).json({
     message: 'Success',
