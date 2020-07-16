@@ -2,7 +2,7 @@ import React from 'react';
 import './SetMatch.css';
 
 const SetMatch = () => {
-  return <div></div>;
+  return <div className="setMatch"></div>;
 };
 
 export default SetMatch;

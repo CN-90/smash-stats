@@ -13,13 +13,17 @@ const matchSchema = new Schema({
     default: 'BO3',
     enum: ['BO3', 'BO5', 'BO7'],
   },
-  players: [String],
-  gamesPlayed: [
-    {
-      winner: { name: String, character: String, stocksLeft: Number },
-      loser: { name: String, character: String, stocksLeft: Number },
-    },
-  ],
+  players: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'Player' }],
+  },
+  gamesPlayed: {
+    type: [
+      {
+        winner: { name: String, character: String, stocksLeft: Number },
+        loser: { name: String, character: String, stocksLeft: Number },
+      },
+    ],
+  },
   timePlayed: Date,
 });
 

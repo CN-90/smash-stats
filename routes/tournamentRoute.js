@@ -6,4 +6,7 @@ router
   .route('/')
   .post(authController.protect, tournamentController.createTournament);
 
+router.route('/:id').get(tournamentController.getTournament);
+router.route('/:id/createMatch').post(tournamentController.createMatch);
+
 module.exports = router;

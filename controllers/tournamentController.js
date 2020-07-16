@@ -1,11 +1,14 @@
 const Tournament = require('../models/tournamentModel');
 const userController = require('./userController');
 const User = require('../models/userModel');
+const Match = require('../models/matchModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
 exports.getTournament = catchAsync(async (req, res, next) => {
-  const tournament = await Tournament.findById({ _id: req.body.id });
+  const tournament = await Tournament.findById({ _id: req.params.id }).populate(
+    'players'
+  );
 
   if (!tournament) {
     return next(new AppError('That tournament does not exist'));
@@ -37,4 +40,9 @@ exports.createTournament = catchAsync(async (req, res) => {
     message: 'Success',
     user: updatedUser,
   });
+});
+
+exports.createMatch = catchAsync(async (req, res) => {
+  const tournament = await Tournament.findById({ _id: req.params.id });
+  const { format, playerOne, playerTwo } = req.body;
 });

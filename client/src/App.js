@@ -8,9 +8,10 @@ import Container from './layout/container/Container';
 import Navbar from './layout/navbar/Navbar';
 import Homepage from './pages/homepage/Homepage';
 import Authpage from './pages/authpage/Authpage';
-import TournamentPage from './pages/tournamentPage/TournamentPage';
 
 import TournamentModal from './components/tournamentModal/TournamentModal';
+import MatchModal from './components/matchModal/MatchModal';
+
 import NewPlayer from './components/newPlayerModal/NewPlayer';
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -20,7 +21,7 @@ function App() {
   const [authState, authDispatch] = useReducer(authReducer, authInitialState);
   const [toggleModals, setToggleModals] = useState({
     playerModal: false,
-    tournamentModal: false,
+    matchModal: false,
   });
   // const [UIState, UIDispatch] = useReducer(UIReducer, UIInitialState);
 
@@ -38,7 +39,6 @@ function App() {
       <Switch>
         <Container>
           <Route path="/" exact component={Homepage} />
-          <Route path="/tournament/:id" component={TournamentPage} />
           <Route path="/player/:id" component={Playerpage} />
         </Container>
       </Switch>
@@ -59,8 +59,8 @@ function App() {
             toggleModals={toggleModals}
             setToggleModals={setToggleModals}
           />
-          {toggleModals.tournamentModal ? (
-            <TournamentModal
+          {toggleModals.matchModal ? (
+            <MatchModal
               authState={authState}
               authDispatch={authDispatch}
               setToggleModals={setToggleModals}

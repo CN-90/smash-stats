@@ -17,7 +17,7 @@ const TournamentModal = ({ authState, authDispatch, setToggleModals }) => {
     };
 
     const response = await authHttpRequest(
-      'http://localhost:5000/api/v1/tournament',
+      'http://localhost:5000/api/v1/tournaments',
       tournamentDetails
     );
 
@@ -29,7 +29,7 @@ const TournamentModal = ({ authState, authDispatch, setToggleModals }) => {
     userInfo.user = response.data.user;
     authDispatch({ type: 'SET_USER', payload: userInfo.user });
     storeUserInfo(userInfo);
-    setToggleModals({ playerModal: false, tournamentModal: false });
+    setToggleModals({ playerModal: false, matchModal: false });
   };
 
   const onChange = (e) => {

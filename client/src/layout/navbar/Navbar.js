@@ -8,13 +8,13 @@ const Navbar = ({ toggleModals, setToggleModals }) => {
   const toggleTournamentModal = () => {
     setToggleModals({
       playerModal: false,
-      tournamentModal: !toggleModals.tournamentModal,
+      matchModal: !toggleModals.matchModal,
     });
   };
 
   const togglePlayerModal = () => {
     setToggleModals({
-      tournamentModal: false,
+      matchModal: false,
       playerModal: !toggleModals.playerModal,
     });
   };
@@ -36,7 +36,7 @@ const Navbar = ({ toggleModals, setToggleModals }) => {
               <ul>
                 {auth.authState.user ? (
                   <Fragment>
-                    <li onClick={toggleTournamentModal}>Create Tournament</li>
+                    <li onClick={toggleTournamentModal}>Create Set</li>
                     <li onClick={togglePlayerModal} className="mr-10">
                       Add Player
                     </li>
