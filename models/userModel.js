@@ -34,7 +34,7 @@ const usersSchema = new Schema({
     },
   },
   players: [{ type: mongoose.Schema.ObjectId, ref: 'Player' }],
-  tournaments: [{ type: mongoose.Schema.ObjectId, ref: 'Tournament' }],
+  matches: [{ type: mongoose.Schema.ObjectId, ref: 'Match' }],
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,

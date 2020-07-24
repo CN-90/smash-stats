@@ -15,7 +15,7 @@ dotenv.config({ path: './config.env' });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/v1/matches/:tournamentID', matchesRouter);
+app.use('/api/v1/matches', matchesRouter);
 app.use('/api/v1/players', playerRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/tournaments', tournamentRouter);

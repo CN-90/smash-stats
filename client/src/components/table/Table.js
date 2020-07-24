@@ -20,9 +20,11 @@ const Table = ({ players }) => {
           {players.map((player) => {
             return (
               <tr className="tableRow" key={player._id}>
-                <Link to={`/player/${player._id}`}>
-                  <td className="playerName">{player.name}</td>
-                </Link>
+                <td>
+                  <Link to={`/player/${player._id}`}>
+                    <span className="playerName">{player.name}</span>
+                  </Link>
+                </td>
                 <td className="characters">Pikachu</td>
                 <td>{player.matchesWon}</td>
                 <td>{player.matchesLost}</td>
