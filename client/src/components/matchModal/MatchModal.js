@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './MatchModal.css';
-import { authHttpRequest } from './../../utils/Auth';
+import { authHttpRequest, storeUserInfo } from './../../utils/Auth';
 
 const MatchModal = ({ authState, authDispatch, setToggleModals }) => {
   const [matchDetails, setMatchDetails] = useState({
@@ -18,6 +18,7 @@ const MatchModal = ({ authState, authDispatch, setToggleModals }) => {
       (user) => user.name === e.target.value
     );
 
+    // logic below ensures that users cannot select the same player in both selects
     // if first select is changed filter out players to exclude currently selected and update second select with all other players
     if (e.target.name === 'selectOne') {
       setMatchDetails({
@@ -30,7 +31,6 @@ const MatchModal = ({ authState, authDispatch, setToggleModals }) => {
       setPlayerTwo(newPlayersTwo);
     } else {
       // if second select is changed filter out players to exclude currently selected and update first select with all other players
-
       setMatchDetails({
         ...matchDetails,
         playerTwo: { name: e.target.value, data: selectedPlayer[0] },
@@ -44,12 +44,24 @@ const MatchModal = ({ authState, authDispatch, setToggleModals }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(matchDetails);
-    let createdSet = await authHttpRequest(
+    if (!matchDetails.playerOne.name || !matchDetails.playerTwo.name) {
+      // need to add proper error message here...
+      console.log('Player names must not be blank.');
+      return;
+    }
+
+    let userInfo = JSON.parse(localStorage.getItem('userData'));
+
+    // receive updated user with new match added on.
+    let response = await authHttpRequest(
       'http://localhost:5000/api/v1/matches',
       matchDetails
     );
-    console.log(createdSet);
+
+    userInfo.user = response.data.updatedUser;
+    authDispatch({ type: 'SET_USER', payload: userInfo.user });
+    storeUserInfo(userInfo);
+    setToggleModals({ playerModal: false, matchModal: false });
   };
 
   return (
@@ -63,7 +75,7 @@ const MatchModal = ({ authState, authDispatch, setToggleModals }) => {
             value={matchDetails.playerOne.name}
             onChange={onChange}
           >
-            <option value="" selected disabled hidden>
+            <option value="" disabled hidden>
               Player One
             </option>
             {playerOne.map((player) => (

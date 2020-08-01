@@ -1,7 +1,6 @@
 import React, { useReducer, useEffect, useState } from 'react';
 import AuthContext from './context/authContext';
 import { authInitialState, authReducer } from './reducers/authReducer';
-// import { UIInitialState, UIReducer } from './reducers/UIReducer';
 
 import './App.css';
 import Container from './layout/container/Container';
@@ -9,13 +8,13 @@ import Navbar from './layout/navbar/Navbar';
 import Homepage from './pages/homepage/Homepage';
 import Authpage from './pages/authpage/Authpage';
 
-import TournamentModal from './components/tournamentModal/TournamentModal';
 import MatchModal from './components/matchModal/MatchModal';
 
 import NewPlayer from './components/newPlayerModal/NewPlayer';
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Playerpage from './pages/playerPage/Playerpage';
+import SetPage from './pages/setPage/SetPage';
 
 function App() {
   const [authState, authDispatch] = useReducer(authReducer, authInitialState);
@@ -23,7 +22,6 @@ function App() {
     playerModal: false,
     matchModal: false,
   });
-  // const [UIState, UIDispatch] = useReducer(UIReducer, UIInitialState);
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('userData'));
@@ -40,6 +38,7 @@ function App() {
         <Container>
           <Route path="/" exact component={Homepage} />
           <Route path="/player/:id" component={Playerpage} />
+          <Route path="/set/:id" component={SetPage} />
         </Container>
       </Switch>
     );
@@ -72,7 +71,14 @@ function App() {
               setToggleModals={setToggleModals}
             />
           ) : null}
-          {Routes}
+          <div
+            className="container"
+            onClick={() =>
+              setToggleModals({ playerModal: false, matchModal: false })
+            }
+          >
+            {Routes}
+          </div>
         </AuthContext.Provider>
       </div>
     </Router>

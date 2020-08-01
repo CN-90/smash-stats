@@ -7,6 +7,7 @@
 
 body {
   background: #efefef;
+  color: #232323;
 }
 
 html {
@@ -25,7 +26,8 @@ li {
 }
 
 .container {
-  width: 80%;
+  width: 90%;
+  min-height: calc(100vh - 75px);
   margin: 0 auto;
 }
 

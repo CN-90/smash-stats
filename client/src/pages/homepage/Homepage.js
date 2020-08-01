@@ -11,7 +11,7 @@ const Homepage = () => {
       {(auth) => (
         <main className="homepage">
           <Table players={auth.authState.user.players} />
-          <MatchHistory />
+          <MatchHistory matches={auth.authState.user.matches} />
         </main>
       )}
     </AuthContext.Consumer>

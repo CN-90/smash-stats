@@ -13,7 +13,7 @@ module.exports.createMatch = catchAsync(async (req, res) => {
     { $push: { matches: newMatch._id } },
     { new: true }
   )
-    .populate('matches')
+    .populate({ path: 'matches', populate: { path: 'players' } })
     .populate('players');
 
   res.status(200).json({
