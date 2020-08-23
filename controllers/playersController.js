@@ -14,7 +14,7 @@ module.exports.createPlayer = catchAsync(async (req, res) => {
     }
   )
     .populate('players')
-    .populate('tournaments');
+    .populate({ path: 'matches', populate: { path: 'players' } });
 
   res.status(200).json({
     message: 'Success',

@@ -8,7 +8,7 @@ import Navbar from './layout/navbar/Navbar';
 import Homepage from './pages/homepage/Homepage';
 import Authpage from './pages/authpage/Authpage';
 
-import MatchModal from './components/matchModal/MatchModal';
+import CreateSetModal from './components/createSetModal/CreateSetModal';
 
 import NewPlayer from './components/newPlayerModal/NewPlayer';
 
@@ -59,7 +59,7 @@ function App() {
             setToggleModals={setToggleModals}
           />
           {toggleModals.matchModal ? (
-            <MatchModal
+            <CreateSetModal
               authState={authState}
               authDispatch={authDispatch}
               setToggleModals={setToggleModals}

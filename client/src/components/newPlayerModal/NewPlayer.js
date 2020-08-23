@@ -11,7 +11,7 @@ const NewPlayer = ({ authDispatch, setToggleModals }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
+    console.log('Submitted...');
     createPlayer(playerName, authDispatch);
 
     setToggleModals({

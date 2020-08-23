@@ -37,6 +37,10 @@
   cursor: pointer;
 }
 
+.matchDetails a {
+  color: #ff3a3a;
+}
+
 .right {
   flex-direction: row-reverse;
 }

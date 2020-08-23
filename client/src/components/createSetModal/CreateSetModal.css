@@ -1,4 +1,4 @@
-.matchModal {
+.setModal {
   height: 400px;
   color: #ffffff;
   width: 30%;
@@ -14,17 +14,17 @@
   z-index: 200;
 }
 
-.matchModal > h1 {
+.setModal > h1 {
   padding-top: 1rem;
   color: white;
   padding-bottom: 2rem;
 }
 
-.matchModal select {
+.setModal select {
   width: 100%;
 }
 
-.matchModal .formGroup {
+.setModal .formGroup {
   text-align: left;
   padding: 2rem;
   padding-top: 0;

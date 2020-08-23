@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Match.css';
+import './Set.css';
 
-const Match = ({ matchDetails }) => {
+const Set = ({ matchDetails }) => {
   console.log(matchDetails);
   return (
     <div className="match">
@@ -49,4 +49,4 @@ const Match = ({ matchDetails }) => {
   );
 };
 
-export default Match;
+export default Set;

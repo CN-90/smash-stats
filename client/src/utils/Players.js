@@ -12,11 +12,16 @@ export const createPlayer = async (playerName, dispatch) => {
     { headers: { Authorization: `Bearer ${userInfo.token}` } }
   );
 
+  userInfo.user = returnedUser.data.data.currentUser;
+
+  console.log(userInfo.user);
   dispatch({
     type: 'SET_USER',
-    payload: returnedUser.data.data.currentUser,
+    payload: userInfo.user,
   });
-
-  userInfo.user = returnedUser.data.data.currentUser;
   storeUserInfo(userInfo);
 };
+
+// userInfo.user = response.data.updatedUser;
+//     authDispatch({ type: 'SET_USER', payload: userInfo.user });
+//     storeUserInfo(userInfo);

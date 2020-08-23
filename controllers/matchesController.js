@@ -1,6 +1,5 @@
 const Match = require('../models/matchModel');
 const User = require('../models/userModel');
-const Tournament = require('../models/tournamentModel');
 const catchAsync = require('../utils/catchAsync');
 
 module.exports.createMatch = catchAsync(async (req, res) => {

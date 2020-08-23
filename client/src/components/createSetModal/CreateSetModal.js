@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import './MatchModal.css';
-import { authHttpRequest, storeUserInfo } from './../../utils/Auth';
+import './CreateSetModal.css';
+import { authHttpRequest, storeUserInfo } from '../../utils/Auth';
 
-const MatchModal = ({ authState, authDispatch, setToggleModals }) => {
+const CreateSetModal = ({ authState, authDispatch, setToggleModals }) => {
   const [matchDetails, setMatchDetails] = useState({
     playerOne: { name: '', data: {} },
     playerTwo: { name: '', data: {} },
@@ -65,7 +65,7 @@ const MatchModal = ({ authState, authDispatch, setToggleModals }) => {
   };
 
   return (
-    <div className="matchModal">
+    <div className="setModal">
       <h1>Create Set</h1>
       <form onSubmit={onSubmit}>
         <div className="formGroup">
@@ -106,4 +106,4 @@ const MatchModal = ({ authState, authDispatch, setToggleModals }) => {
   );
 };
 
-export default MatchModal;
+export default CreateSetModal;
