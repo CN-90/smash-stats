@@ -16,6 +16,7 @@ export const signIn = async (user, dispatch) => {
     dispatch({ type: 'LOGIN', payload: userData });
     storeUserInfo(userData);
   } catch (err) {
+    console.log(err)
     dispatch({ type: 'ERROR', payload: err.response.data.message });
   }
 };

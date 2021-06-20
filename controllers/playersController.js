@@ -3,6 +3,7 @@ const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 
 module.exports.createPlayer = catchAsync(async (req, res) => {
+  console.log(req.body.name)
   const player = await Player.create({ name: req.body.name });
 
   const currentUser = await User.findByIdAndUpdate(

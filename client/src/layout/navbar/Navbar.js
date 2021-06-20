@@ -43,11 +43,11 @@ const Navbar = ({ toggleModals, setToggleModals }) => {
                     <li onClick={signOut}>Sign Out</li>
                   </Fragment>
                 ) : auth.authState.signUpMode ? (
-                  <li onClick={() => auth.authDispatch({ type: 'SignUp' })}>
+                  <li onClick={() => auth.authDispatch({ type: 'SIGN_UP' })}>
                     Sign In
                   </li>
                 ) : (
-                  <li onClick={() => auth.authDispatch({ type: 'SignUp' })}>
+                  <li onClick={() => auth.authDispatch({ type: 'SIGN_UP' })}>
                     Sign Up
                   </li>
                 )}

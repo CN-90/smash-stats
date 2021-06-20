@@ -29,7 +29,7 @@ export const authReducer = (state, action) => {
         signUpMode: !state.signUpMode,
       };
 
-    case 'SET_USER':
+    case 'UPDATE_USER':
       return {
         ...state,
         user: action.payload,

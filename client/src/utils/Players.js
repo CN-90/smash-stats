@@ -16,7 +16,7 @@ export const createPlayer = async (playerName, dispatch) => {
 
   console.log(userInfo.user);
   dispatch({
-    type: 'SET_USER',
+    type: 'UPDATE_USER',
     payload: userInfo.user,
   });
   storeUserInfo(userInfo);

@@ -30,7 +30,7 @@ const CreateSetModal = ({ authState, authDispatch, setToggleModals }) => {
       );
       setPlayerTwo(newPlayersTwo);
     } else {
-      // if second select is changed filter out players to exclude currently selected and update first select with all other players
+      // if second select is changed filter out players to exclude the currently selected player and update first select with all other players
       setMatchDetails({
         ...matchDetails,
         playerTwo: { name: e.target.value, data: selectedPlayer[0] },
@@ -59,7 +59,7 @@ const CreateSetModal = ({ authState, authDispatch, setToggleModals }) => {
     );
 
     userInfo.user = response.data.updatedUser;
-    authDispatch({ type: 'SET_USER', payload: userInfo.user });
+    authDispatch({ type: 'UPDATE_USER', payload: userInfo.user });
     storeUserInfo(userInfo);
     setToggleModals({ playerModal: false, matchModal: false });
   };
