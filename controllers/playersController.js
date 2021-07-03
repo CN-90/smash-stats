@@ -1,9 +1,10 @@
-const Player = require('../models/playerModel');
-const User = require('../models/userModel');
-const catchAsync = require('../utils/catchAsync');
+const Player = require("../models/playerModel");
+const User = require("../models/userModel");
+const AppError = require("../utils/appError");
+const catchAsync = require("../utils/catchAsync");
 
-module.exports.createPlayer = catchAsync(async (req, res) => {
-  console.log(req.body.name)
+exports.createPlayer = catchAsync(async (req, res) => {
+  console.log(req.body.name);
   const player = await Player.create({ name: req.body.name });
 
   const currentUser = await User.findByIdAndUpdate(
@@ -14,11 +15,11 @@ module.exports.createPlayer = catchAsync(async (req, res) => {
       if (err) console.log(err);
     }
   )
-    .populate('players')
-    .populate({ path: 'matches', populate: { path: 'players' } });
+    .populate("players")
+    .populate({ path: "matches", populate: { path: "players" } });
 
   res.status(200).json({
-    message: 'Success',
+    message: "Success",
     data: {
       newPlayer: player,
       currentUser: currentUser,
@@ -26,44 +27,15 @@ module.exports.createPlayer = catchAsync(async (req, res) => {
   });
 });
 
-module.exports.addMatch = catchAsync(async (req, res) => {
-  const id = req.params.id;
-  const player = await Player.updateOne(
-    { _id: id },
-    { $inc: { matchesPlayed: 1, matchesLost: 1 } }
-  );
-  // const player = await Player.find({
-  //   _id: id,
-  //   $or: [
-  //     { 'matchUps.Link': { $exists: true } },
-  //     { 'matchUps.Link.opponents.mario': { $exists: true } }
-  //   ]
-  // });
-
-  // console.log(player[0].matchUps);
-
-  res.status(200).json({
-    data: player,
-  });
-});
-
-// This is used to dynamically add a character to the matchUps field
-// const $set = {
-//   ['matchUps.' + 'Link']: {
-//     wins: 0,
-//     losses: 1,
-//     matchesPlayed: 1,
-//     opponents: {
-//       ['Luigi']: { wins: 0, losses: 1, matchesPlayed: 1 }
-//     }
-//   }
-// };
-
-const fakeMatch = {
-  playerOne: {
-    matchesPlayed: 1,
-    matchesWon: 1,
-    characterPlayed: 'link',
-    opponent: 'zelda',
-  },
+exports.updatePlayer = async (winner, loser, next) => {
+  try {
+    let player = await Player.update(
+      { _id: winner.id },
+      { $set: { nickname: "Old Scott" } },
+      { new: true, strict: false, returnNewDocument: true }
+    );
+    return player;
+  } catch (err) {
+    return false;
+  }
 };

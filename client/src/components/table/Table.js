@@ -5,12 +5,12 @@ import './Table.css';
 const Table = ({ players }) => {
   return (
     <section className="tableContainer">
-      <h1 className="headerSecondary">Season One</h1>
+      <h1 className="headerSecondary">Players</h1>
       <table>
         <thead>
           <tr className="tableRow">
             <th>Name</th>
-            <th className="characterHeader">Characters</th>
+            {/* <th className="characterHeader">Characters</th> */}
             <th>Wins</th>
             <th>Losses</th>
             <th>Points</th>
@@ -25,7 +25,7 @@ const Table = ({ players }) => {
                     <span className="playerName">{player.name}</span>
                   </Link>
                 </td>
-                <td className="characters">Pikachu</td>
+                {/* <td className="characters">Pikachu</td> */}
                 <td>{player.matchesWon}</td>
                 <td>{player.matchesLost}</td>
                 <td>{player.points}</td>

@@ -13,6 +13,7 @@ export const signIn = async (user, dispatch) => {
       user: response.data.data.user,
       token: response.data.token,
     };
+    console.log(response)
     dispatch({ type: 'LOGIN', payload: userData });
     storeUserInfo(userData);
   } catch (err) {

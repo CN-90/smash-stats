@@ -25,7 +25,6 @@ function App() {
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('userData'));
-    console.log(storedData);
     if (storedData) {
       authDispatch({ type: 'LOGIN', payload: storedData });
     }

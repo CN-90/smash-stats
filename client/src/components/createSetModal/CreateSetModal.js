@@ -54,7 +54,7 @@ const CreateSetModal = ({ authState, authDispatch, setToggleModals }) => {
 
     // receive updated user with new match added on.
     let response = await authHttpRequest(
-      'http://localhost:5000/api/v1/matches',
+      'http://localhost:5000/api/v1/sets',
       matchDetails
     );
 

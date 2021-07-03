@@ -3,16 +3,16 @@ import { Link } from 'react-router-dom';
 import './Set.css';
 
 const Set = ({ matchDetails }) => {
-  console.log(matchDetails);
+  console.log(matchDetails)
   return (
     <div className="match">
       <div className="playerDetails">
         <div className="flex">
-          {/* <img
+          <img
             className="characterIcon"
             src="https://www.smashbros.com/assets_v2/img/fighter/pict/pokemon_trainer.png"
             alt=""
-          /> */}
+          />
           <h2 className="playerName ml-1">{matchDetails.players[0].name}</h2>
         </div>
         <div>

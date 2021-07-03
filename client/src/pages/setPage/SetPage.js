@@ -30,7 +30,7 @@ const SetPage = (props) => {
             Add Match
           </button>
         </div>
-        {matchDetails.gamesPlayed.length === 0 ? (
+        {matchDetails.matches.length === 0 ? (
           <h3 className="noMatches">No matches have been added</h3>
         ) : (
           <div>Matches Container</div>

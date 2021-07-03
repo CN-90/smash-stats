@@ -46,9 +46,10 @@ const SetMatch = ({ players }) => {
 
   return (
     <div className="setMatch">
-      <div className="setMatch__header">
         <h1>Match Details</h1>
+
         <form onSubmit={onSubmit} className="setMatch__form">
+          
           <div className="setMatch__playerOne">
             <h2 className="setMatch__winner">Winner</h2>
             <div className="formGroup">
@@ -67,6 +68,7 @@ const SetMatch = ({ players }) => {
               </select>
             </div>
             <div className="formGroup">
+
               <label htmlFor="Character">Character</label>
               <select onChange={onChange} name="character" id="winnerCharacter">
                 {characters.map((character, ind) => (
@@ -84,7 +86,7 @@ const SetMatch = ({ players }) => {
                 name="sds"
                 id="winnersds"
               />
-              <label htmlFor="stocks">Stocks</label>
+              <label htmlFor="stocks">Stocks remaining</label>
               <input
                 onChange={onChange}
                 name="stocksLeft"
@@ -153,7 +155,6 @@ const SetMatch = ({ players }) => {
             <button className="blue-btn">Create Match</button>
           </div>
         </form>
-      </div>
     </div>
   );
 };

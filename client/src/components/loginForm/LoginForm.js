@@ -11,6 +11,7 @@ const LoginForm = ({ auth }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    console.log('pressed')
     if (auth.authState.signUpMode) {
       signUp(user, auth.authDispatch);
     } else {
