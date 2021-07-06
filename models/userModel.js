@@ -55,16 +55,6 @@ usersSchema.methods.correctPassword = async function (
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-usersSchema.methods.addTournament = async function (userID, tournamentID) {
-  let updatedUser = await User.findByIdAndUpdate(
-    { _id: userID },
-    { $push: { tournaments: tournamentID } },
-    { new: true }
-  );
-
-  return updatedUser;
-};
-
 // create reset password token
 usersSchema.methods.createPasswordToken = function () {
   const resetToken = crypto.randomBytes(32).toString('hex');

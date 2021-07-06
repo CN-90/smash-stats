@@ -27,15 +27,58 @@ exports.createPlayer = catchAsync(async (req, res) => {
   });
 });
 
+// inc
 exports.updatePlayer = async (winner, loser, next) => {
+  let incrementStatement = createIncreaseStatement(winner);
   try {
-    let player = await Player.update(
+    const winningPlayer = await Player.findByIdAndUpdate(
       { _id: winner.id },
-      { $set: { nickname: "Old Scott" } },
-      { new: true, strict: false, returnNewDocument: true }
+      {
+        $inc: {
+          wins: 1,
+          losses: 0,
+          [`characters.${winner.character}.wins`]: 1,
+          [`characters.${winner.character}.losses`]: 0,
+          [`characters.${winner.character}.${loser.character}.wins`]: 1,
+          [`characters.${winner.character}.${loser.character}.losses`]: 0,
+          ...incrementStatement,
+        },
+       
+      },
+      { new: true, strict: false }
     );
-    return player;
+
+    let incrementStatementTwo = createIncreaseStatement(loser);
+    const losingPlayer = await Player.findByIdAndUpdate(
+      { _id: loser.id },
+      {
+        $inc: {
+          losses: 1,
+          [`characters.${loser.character}.losses`]: 1,
+          [`characters.${loser.character}.wins`]: 0,
+          [`characters.${loser.character}.${winner.character}.losses`]: 1,
+          [`characters.${loser.character}.${winner.character}.wins`]: 0,
+          ...incrementStatementTwo,
+        },
+      },
+      { new: true, strict: false }
+    );
+
+
+    return { winningPlayer, losingPlayer};
   } catch (err) {
     return false;
   }
+};
+
+//  Creates the $inc object to add stats to player for updateOne method.
+const createIncreaseStatement = (player) => {
+  let incrementStatement = {};
+
+  for (keys of Object.keys(player.stats)) {
+    incrementStatement[`overall_stats.${keys}`] = player.stats[keys];
+    incrementStatement[`characters.${player.character}.stats.${keys}`] =
+      player.stats[keys];
+  }
+  return incrementStatement;
 };

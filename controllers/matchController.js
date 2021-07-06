@@ -14,34 +14,43 @@ exports.createMatch = catchAsync(async (req, res, next) => {
     winner: {
       id: "60df040a6bf09719d01a76a4",
       character: "Sheik",
-      stats: { sds: 0, dunks: 3, perries: 4, stocksRemaining: 3 },
+      stocksRemaining: 3,
+      stats: { sds: 0, dunks: 3, perries: 4 },
     },
     loser: {
       id: "60df040f6bf09719d01a76a5",
       character: "Bowser",
-      stats: { sds: 1, dunks: 3, perries: 4, stocksRemaining: 0 },
+      stats: { sds: 1, dunks: 3, perries: 4 },
     },
     set: setID,
   };
-  // const newMatch = await Match.create(data);
-
-  // const updatedSet = await Set.findByIdAndUpdate(
-  //   { _id: setID },
-  //   { $push: { matches: newMatch._id } },
-  //   { new: true }
-  // ).populate('matches')
+  
+  const newMatch = await Match.create(data);
+  const updatedSet = await Set.findByIdAndUpdate(
+      { _id: setID },
+    { $push: { matches: newMatch._id }},
+    { new: true }
+  ).populate('matches')
 
   // const player = await Player.updatePlayer("60ded8d52bf0bb25f09385ad")
-  // try {
-    
-    const updatedPlayer = await PlayerController.updatePlayer(data.winner, data.loser);
-    if(!updatedPlayer){
-      return next(new AppError("There was a problem updating your character.", 500))
-    }
-    // try {
-    // }catch (err){
-      // console.log(err)
-    // }
 
-  res.json({ message: "Idiot" });
+  const updatedPlayers = await PlayerController.updatePlayer(
+    data.winner,
+    data.loser
+  );
+  if (!updatedPlayers) {
+    return next(
+      new AppError("There was a problem updating your character.", 500)
+    );
+  }
+  // try {
+  // }catch (err){
+  // console.log(err)
+  // }
+
+  res.json({
+    players: [updatedPlayers.winningPlayer, updatedPlayers.losingPlayer],
+  });
 });
+
+exports.deleteMatch = () => {};

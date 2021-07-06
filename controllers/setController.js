@@ -20,3 +20,12 @@ exports.createSet = catchAsync(async (req, res) => {
     updatedUser,
   });
 });
+
+exports.deleteSet = catchAsync(async (req, res) => {
+  const setId = req.params.setId;
+  const setToDelete = await Set.findById(setId);
+
+  
+  // delete matches
+
+})
