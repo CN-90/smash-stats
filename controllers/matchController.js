@@ -1,14 +1,19 @@
 const Set = require("../models/setModal");
-const User = require("../models/userModel");
 const Match = require("../models/matchModal");
 const catchAsync = require("../utils/catchAsync");
 
 const PlayerController = require("../controllers/playersController");
-const Player = require("../models/playerModel");
 const AppError = require("../utils/appError");
+const { checkIfMatchPoint } = require("../utils/setUtils");
 
 exports.createMatch = catchAsync(async (req, res, next) => {
-  const setID = "60df04136bf09719d01a76a6";
+  const setID = "60e8125b752bc280a0810e8f";
+  const set = await Set.findById(setID);
+  if (set.setComplete) {
+    return res.json({
+      error: "Set is alrady complete, no more matches can be added.",
+    });
+  }
   const data = {
     players: ["60df040a6bf09719d01a76a4", "60df040f6bf09719d01a76a5"],
     winner: {
@@ -24,33 +29,42 @@ exports.createMatch = catchAsync(async (req, res, next) => {
     },
     set: setID,
   };
-  
+
+  //  check if this match is the last of the set.
+  const matchPoint = checkIfMatchPoint(set, data.winner.id);
+  let $set = {};
+  // if this is matchpoint, set setComplete to true so no more matches can be added.
+  if(matchPoint){
+    $set = {$set: {setComplete: true}}
+  }
+
   const newMatch = await Match.create(data);
   const updatedSet = await Set.findByIdAndUpdate(
-      { _id: setID },
-    { $push: { matches: newMatch._id }},
-    { new: true }
-  ).populate('matches')
+    { _id: setID },
+    {
+      $push: { matches: newMatch._id },
+      $inc: { [`currentScore.${data.winner.id}`]: 1 },
+      ...$set
+    },
+    { new: true, strict: false }
+  ).populate("matches");
 
-  // const player = await Player.updatePlayer("60ded8d52bf0bb25f09385ad")
-
-  const updatedPlayers = await PlayerController.updatePlayer(
-    data.winner,
-    data.loser
-  );
-  if (!updatedPlayers) {
-    return next(
-      new AppError("There was a problem updating your character.", 500)
-    );
-  }
-  // try {
-  // }catch (err){
-  // console.log(err)
+  // const updatedPlayers = await PlayerController.saveMatchStatsToPlayers(
+  //   data.winner,
+  //   data.loser
+  // );
+  // if (!updatedPlayers) {
+  //   return next(
+  //     new AppError("There was a problem updating your character.", 500)
+  //   );
   // }
 
   res.json({
+    updatedSet,
     players: [updatedPlayers.winningPlayer, updatedPlayers.losingPlayer],
   });
 });
 
-exports.deleteMatch = () => {};
+exports.deleteMatch = catchAsync(async (matchId) => {
+  return await Match.deleteOne(matchId);
+});

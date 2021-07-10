@@ -28,9 +28,9 @@ exports.createPlayer = catchAsync(async (req, res) => {
 });
 
 // inc
-exports.updatePlayer = async (winner, loser, next) => {
-  let incrementStatement = createIncreaseStatement(winner);
+exports.saveMatchStatsToPlayers = async (winner, loser) => {
   try {
+    let winnerStats = createStatsIncreaseStatement(winner);
     const winningPlayer = await Player.findByIdAndUpdate(
       { _id: winner.id },
       {
@@ -39,40 +39,39 @@ exports.updatePlayer = async (winner, loser, next) => {
           losses: 0,
           [`characters.${winner.character}.wins`]: 1,
           [`characters.${winner.character}.losses`]: 0,
-          [`characters.${winner.character}.${loser.character}.wins`]: 1,
-          [`characters.${winner.character}.${loser.character}.losses`]: 0,
-          ...incrementStatement,
+          [`characters.${winner.character}.matchups.${loser.character}.wins`]: 1,
+          [`characters.${winner.character}.matchups.${loser.character}.losses`]: 0,
+          ...winnerStats,
         },
-       
       },
       { new: true, strict: false }
     );
 
-    let incrementStatementTwo = createIncreaseStatement(loser);
+    let loserStats = createStatsIncreaseStatement(loser);
     const losingPlayer = await Player.findByIdAndUpdate(
       { _id: loser.id },
       {
         $inc: {
           losses: 1,
+          wins: 0,
           [`characters.${loser.character}.losses`]: 1,
           [`characters.${loser.character}.wins`]: 0,
-          [`characters.${loser.character}.${winner.character}.losses`]: 1,
-          [`characters.${loser.character}.${winner.character}.wins`]: 0,
-          ...incrementStatementTwo,
+          [`characters.${loser.character}.matchups.${winner.character}.losses`]: 1,
+          [`characters.${loser.character}.matchups.${winner.character}.wins`]: 0,
+          ...loserStats,
         },
       },
       { new: true, strict: false }
     );
 
-
-    return { winningPlayer, losingPlayer};
+    return { winningPlayer, losingPlayer };
   } catch (err) {
     return false;
   }
 };
 
 //  Creates the $inc object to add stats to player for updateOne method.
-const createIncreaseStatement = (player) => {
+const createStatsIncreaseStatement = (player) => {
   let incrementStatement = {};
 
   for (keys of Object.keys(player.stats)) {
@@ -81,4 +80,59 @@ const createIncreaseStatement = (player) => {
       player.stats[keys];
   }
   return incrementStatement;
+};
+
+const createStatsDecreaseStatement = (player) => {
+  let incrementStatement = {};
+
+  for (keys of Object.keys(player.stats)) {
+    if (player.stats[keys] > 0) {
+      incrementStatement[`overall_stats.${keys}`] = player.stats[keys] * -1;
+      incrementStatement[`characters.${player.character}.stats.${keys}`] =
+        player.stats[keys] * -1;
+    } else {
+      incrementStatement[`overall_stats.${keys}`] = player.stats[keys];
+      incrementStatement[`characters.${player.character}.stats.${keys}`] =
+        player.stats[keys];
+    }
+  }
+  return incrementStatement;
+};
+
+exports.removePlayerStats = async (match) => {
+  const { winner, loser } = match;
+
+  try {
+    const winnerStats = createStatsDecreaseStatement(winner);
+    const winningPlayer = await Player.findByIdAndUpdate(
+      { _id: winner.id },
+      {
+        $inc: {
+          wins: -1,
+          [`characters.${winner.character}.wins`]: -1,
+          [`characters.${winner.character}.matchups.${loser.character}.wins`]: -1,
+          ...winnerStats,
+        },
+      },
+      { new: true, strict: false }
+    );
+
+    const loserStats = createStatsDecreaseStatement(loser);
+    const losingPlayer = await Player.findByIdAndUpdate(
+      { _id: loser.id },
+      {
+        $inc: {
+          losses: -1,
+          [`characters.${loser.character}.losses`]: -1,
+          [`characters.${loser.character}.matchups.${winner.character}.losses`]: -1,
+          ...loserStats,
+        },
+      },
+      { new: true, strict: false }
+    );
+
+    return { winningPlayer, losingPlayer };
+  } catch (err) {
+    return false;
+  }
 };

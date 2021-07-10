@@ -6,7 +6,7 @@ router
   .route("/")
   .post(authController.protect, setController.createSet)
 
-router.route("/:id")
+router.route("/:setId")
   .delete(setController.deleteSet);
 
 module.exports = router;

@@ -9,23 +9,28 @@ const setSchema = new Schema(
     loser: {
       player: { type: Schema.Types.ObjectId, ref: "Player" },
     },
+    currentScore: {},
+
+    setComplete: {
+      type: Boolean,
+      default: false,
+    },
+
     format: {
       type: String,
       default: "BO3",
-      enum: ["BO1","BO3", "BO5", "BO7"],
+      enum: ["BO1", "BO3", "BO5", "BO7"],
     },
     players: {
       type: [{ type: Schema.Types.ObjectId, ref: "Player" }],
     },
     matches: {
-      type: [{ type: Schema.Types.ObjectId, ref: "Match" }]
+      type: [{ type: Schema.Types.ObjectId, ref: "Match" }],
     },
-    total_set_stats: {}
+    total_set_stats: {},
   },
   { timestamps: true }
 );
-
-
 
 const Set = mongoose.model("Set", setSchema);
 
