@@ -34,8 +34,8 @@ exports.createMatch = catchAsync(async (req, res, next) => {
   const matchPoint = checkIfMatchPoint(set, data.winner.id);
   let $set = {};
   // if this is matchpoint, set setComplete to true so no more matches can be added.
-  if(matchPoint){
-    $set = {$set: {setComplete: true}}
+  if (matchPoint) {
+    $set = { $set: { setComplete: true } };
   }
 
   const newMatch = await Match.create(data);
@@ -44,20 +44,20 @@ exports.createMatch = catchAsync(async (req, res, next) => {
     {
       $push: { matches: newMatch._id },
       $inc: { [`currentScore.${data.winner.id}`]: 1 },
-      ...$set
+      ...$set,
     },
     { new: true, strict: false }
   ).populate("matches");
 
-  // const updatedPlayers = await PlayerController.saveMatchStatsToPlayers(
-  //   data.winner,
-  //   data.loser
-  // );
-  // if (!updatedPlayers) {
-  //   return next(
-  //     new AppError("There was a problem updating your character.", 500)
-  //   );
-  // }
+  const updatedPlayers = await PlayerController.saveMatchStatsToPlayers(
+    data.winner,
+    data.loser
+  );
+  if (!updatedPlayers) {
+    return next(
+      new AppError("There was a problem updating your character.", 500)
+    );
+  }
 
   res.json({
     updatedSet,
@@ -67,4 +67,8 @@ exports.createMatch = catchAsync(async (req, res, next) => {
 
 exports.deleteMatch = catchAsync(async (matchId) => {
   return await Match.deleteOne(matchId);
+});
+
+exports.updateMatch = catchAsync(async (req, res) => {
+  // deteremine if characters have changed
 });
